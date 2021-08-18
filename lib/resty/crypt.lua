@@ -82,6 +82,10 @@ function _M.decrypt (self, encrypted)
     aes_crypt:set_padding(0)
 
     local text = aes_crypt:decrypt(ciphertext_dec)
+    if not text then
+        return nil, 'aes_crypt:decrypt failed'
+    end    
+    
     text = pkcs7_decode(str_sub(text, 17, #text))
 
     local xml_len = unpack_text_len(str_sub(text, 1, 4))
